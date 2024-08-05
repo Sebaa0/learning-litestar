@@ -1,4 +1,3 @@
-import select
 from typing import Sequence
 
 from advanced_alchemy.exceptions import NotFoundError
@@ -369,7 +368,6 @@ class TravelController(Controller):
         user_ids: list[int]
     ) -> Travel:
         try:
-            # Verificar la existencia del viaje
             travel = travel_repo.get(travel_id)
             
             # Verificar la existencia de los usuarios
@@ -391,7 +389,6 @@ class TravelController(Controller):
             return travel
 
         except NotFoundError as e:
-            # Si el viaje no se encuentra, lanzar una excepción específica
             raise NotFoundException(detail=f"Viaje con ID {travel_id} no encontrado") from e
 
     @delete("/{travel_id:int}/users/{user_id:int}", return_dto = TravelReadDTO)
@@ -415,20 +412,20 @@ class TravelController(Controller):
     async def list_travel_transports(self, transport_repo: TransportRepository, travel_id: int) -> list[Transport]:
         transport = transport_repo.list(CollectionFilter(field_name="travel_id", values=[travel_id]))
         if not transport:
-            raise NotFoundException(detail=f"No transport found for travel ID {travel_id}")
+            raise NotFoundException(detail=f"No hay transportes encontrados para el viaje con ID {travel_id}")
         return transport
 
     @get("/{travel_id:int}/activities", return_dto = ActivityReadDTO)
     async def list_travel_activities(self, activity_repo: ActivityRepository, travel_id: int) -> list[Activity]:
         activity = activity_repo.list(CollectionFilter(field_name="travel_id", values=[travel_id]))
         if not activity:
-            raise NotFoundException(detail=f"No activity found for travel ID {travel_id}")
+            raise NotFoundException(detail=f"No hay actividades encontradas para el viaje con ID {travel_id}")
         return activity
     
     @get("/{travel_id:int}/expenses", return_dto = ExpenseReadDTO)
     async def list_travel_expenses(self, expense_repo: ExpenseRepository, travel_id: int) -> list[Expense]:
         expense = expense_repo.list(CollectionFilter(field_name="travel_id", values=[travel_id]))
         if not expense:
-            raise NotFoundException(detail=f"No expense found for travel ID {travel_id}")
+            raise NotFoundException(detail=f"No hay gastos encontrados para el viaje con ID {travel_id}")
         return expense
     

@@ -51,6 +51,8 @@ class Accommodation(Base):
 
     travel: Mapped["Travel"] = relationship("Travel", back_populates="accommodations")
     city: Mapped["City"] = relationship()
+    expenses: Mapped[list["Expense"]] = relationship("Expense", back_populates="accommodation")
+
 
 
 class Transport(Base):
@@ -72,6 +74,7 @@ class Transport(Base):
     travel: Mapped["Travel"] = relationship("Travel", back_populates="transports")
     start_city: Mapped["City"] = relationship("City", foreign_keys=[start_city_id])
     end_city: Mapped["City"] = relationship("City", foreign_keys=[end_city_id])
+    expenses: Mapped[list["Expense"]] = relationship("Expense", back_populates="transport")
 
 
 class Activity(Base):
@@ -90,33 +93,35 @@ class Activity(Base):
 
     travel: Mapped["Travel"] = relationship("Travel", back_populates="activities")
     city: Mapped["City"] = relationship()
+    expenses: Mapped[list["Expense"]] = relationship("Expense", back_populates="activity")
 
 
 class Expense(Base):
     __tablename__ = "expenses"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    description: Mapped[str]
+    description: Mapped[Optional[str]]
     amount: Mapped[int]
     datetime: Mapped[date]
 
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     travel_id: Mapped[int] = mapped_column(ForeignKey("travels.id"))
+    accommodation_id: Mapped[Optional[int]] = mapped_column(ForeignKey("accommodations.id"), nullable=True)
+    transport_id: Mapped[Optional[int]] = mapped_column(ForeignKey("transport.id"), nullable=True)
+    activity_id: Mapped[Optional[int]] = mapped_column(ForeignKey("activities.id"), nullable=True)
 
     user: Mapped["User"] = relationship("User", back_populates="expenses")
     travel: Mapped["Travel"] = relationship("Travel", back_populates="expenses")
+    accommodation: Mapped[Optional["Accommodation"]] = relationship("Accommodation", back_populates="expenses")
+    transport: Mapped[Optional["Transport"]] = relationship("Transport", back_populates="expenses")
+    activity: Mapped[Optional["Activity"]] = relationship("Activity", back_populates="expenses")
 
 class City(Base):
     __tablename__ = "cities"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str]
-    country: Mapped[str]
-
-    #accommodations: Mapped[list["Accommodation"]] = relationship("Accommodation", back_populates="city")
-    #activities: Mapped[list["Activity"]] = relationship("Activity", back_populates="city")
-    #start_transports: Mapped[list["Transport"]] = relationship("Transport", foreign_keys=[Transport.start_city_id])
-    #end_transports: Mapped[list["Transport"]] = relationship("Transport", foreign_keys=[Transport.end_city_id])
+    country: Mapped[str] = mapped_column(unique=True, nullable=False)
 
 class UsersTravels(Base):
     __tablename__ = "users_travels"

@@ -3,7 +3,7 @@ from litestar.contrib.sqlalchemy.plugins import SQLAlchemySyncConfig, SQLAlchemy
 from app.models import Base
 
 db_config = SQLAlchemySyncConfig(
-    connection_string="sqlite:///test.sqlite3",
+    connection_string="sqlite:///tbd_2024_proyecto.sqlite3",
     metadata=Base.metadata,
     create_all=True,
 )

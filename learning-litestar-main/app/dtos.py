@@ -5,41 +5,41 @@ from app.models import Accommodation, Transport, Activity, Expense, City, Travel
 
 # Accommodation DTOs
 class AccommodationReadDTO(SQLAlchemyDTO[Accommodation]):
-    config = SQLAlchemyDTOConfig(exclude={"travel", "city"})
+    config = SQLAlchemyDTOConfig(exclude={"travel", "city", "expenses"})
 
 class AccommodationReadFullDTO(SQLAlchemyDTO[Accommodation]):
     config = SQLAlchemyDTOConfig(exclude={"city_id"})
 
 class AccommodationCreateDTO(SQLAlchemyDTO[Accommodation]):
-    config = SQLAlchemyDTOConfig(exclude={"id", "travel", "city"})
+    config = SQLAlchemyDTOConfig(exclude={"id", "travel", "city", "expenses"})
 
 class AccommodationUpdateDTO(SQLAlchemyDTO[Accommodation]):
-    config = SQLAlchemyDTOConfig(exclude={"id", "travel", "city"}, partial=True)
+    config = SQLAlchemyDTOConfig(exclude={"id", "travel", "city", "expenses"}, partial=True)
 
 
 # Transport DTOs
 class TransportReadDTO(SQLAlchemyDTO[Transport]):
-    config = SQLAlchemyDTOConfig(exclude={"travel", "start_city", "end_city"})
+    config = SQLAlchemyDTOConfig(exclude={"travel", "start_city", "end_city", "expenses"})
 
 class TransportCreateDTO(SQLAlchemyDTO[Transport]):
-    config = SQLAlchemyDTOConfig(exclude={"id", "travel", "start_city", "end_city"})
+    config = SQLAlchemyDTOConfig(exclude={"id", "travel", "start_city", "end_city", "expenses"})
 
 class TransportUpdateDTO(SQLAlchemyDTO[Transport]):
-    config = SQLAlchemyDTOConfig(exclude={"id", "travel", "start_city", "end_city"}, partial=True)
+    config = SQLAlchemyDTOConfig(exclude={"id", "travel", "start_city", "end_city", "expenses"}, partial=True)
 
 
 # Activity DTOs
 class ActivityReadDTO(SQLAlchemyDTO[Activity]):
-    config = SQLAlchemyDTOConfig(exclude={"travel", "city"})
+    config = SQLAlchemyDTOConfig(exclude={"travel", "city", "expenses"})
 
 class ActivityReadFullDTO(SQLAlchemyDTO[Activity]):
     pass
 
 class ActivityCreateDTO(SQLAlchemyDTO[Activity]):
-    config = SQLAlchemyDTOConfig(exclude={"id", "travel", "city"})
+    config = SQLAlchemyDTOConfig(exclude={"id", "travel", "city", "expenses"})
 
 class ActivityUpdateDTO(SQLAlchemyDTO[Activity]):
-    config = SQLAlchemyDTOConfig(exclude={"id", "travel", "city"}, partial=True)
+    config = SQLAlchemyDTOConfig(exclude={"id", "travel", "city", "expenses"}, partial=True)
 
 
 # Expense DTOs
@@ -47,10 +47,10 @@ class ExpenseReadDTO(SQLAlchemyDTO[Expense]):
     config = SQLAlchemyDTOConfig(exclude={"travel", "user"})
 
 class ExpenseCreateDTO(SQLAlchemyDTO[Expense]):
-    config = SQLAlchemyDTOConfig(exclude={"id", "travel", "user"})
+    config = SQLAlchemyDTOConfig(exclude={"id", "travel", "user", "accommodation", "transport", "activity"})
 
 class ExpenseUpdateDTO(SQLAlchemyDTO[Expense]):
-    config = SQLAlchemyDTOConfig(exclude={"id", "travel", "user"}, partial=True)
+    config = SQLAlchemyDTOConfig(exclude={"id", "travel", "user", "accommodation", "transport", "activity"}, partial=True)
 
 
 # City DTOs
